@@ -92,5 +92,33 @@ describe("UI Integration tests", () => {
       act(() => button.click());
       expect(appClient.operations.addTask).not.toHaveBeenCalled();
     });
+
+    test("Expect typing to be visible when typing", () => {
+      const appClient = new ClientBuilder().withTypingText().build();
+      render(<App appClient={appClient} />);
+
+      const typingIndicator = screen.getByTestId("typing-indicator");
+      expect(typingIndicator).toBeInTheDocument();
+    });
+
+    test("Expect typing hidden when not typing", async () => {
+      const appClient = new ClientBuilder().build();
+      render(<App appClient={appClient} />);
+
+      const typingIndicator = screen.queryAllByTestId("typing-indicator")[0];
+      expect(typingIndicator).toBeUndefined();
+    });
+
+    test.skip("Expect typing indicator to be hidden after 2 seconds without typing", () => {
+      jest.useFakeTimers();
+      jest.spyOn(global, "setTimeout");
+      const appClient = new ClientBuilder().withTypingText().build();
+      render(<App appClient={appClient} />);
+
+      jest.runAllTimers();
+
+      const typingIndicator = screen.queryAllByTestId("typing-indicator")[0];
+      expect(typingIndicator).toBeUndefined();
+    });
   });
 });

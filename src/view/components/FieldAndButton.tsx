@@ -6,7 +6,7 @@ import { useTypingText } from "../hooks/useTypingText";
 
 export const FieldAndButton = () => {
   const addTask = useAddTask();
-  const { text, setTypingText } = useTypingText();
+  const { text, setTypingText, pausedTyping } = useTypingText();
 
   const validate = useCallback(() => {
     return !_.chain(text).trim().isEmpty().value();
@@ -19,6 +19,9 @@ export const FieldAndButton = () => {
         data-testid="textfield"
         onChange={(event) => {
           setTypingText(event.target.value);
+          setTimeout(() => {
+            pausedTyping();
+          }, 2000);
         }}
         value={text}
       />
@@ -28,6 +31,7 @@ export const FieldAndButton = () => {
           if (validate()) {
             addTask?.(new Task(text));
             setTypingText("");
+            pausedTyping();
           }
         }}
       >

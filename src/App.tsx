@@ -1,5 +1,5 @@
 import React from "react";
-import { AppContextProvider, FieldAndButton, TasksList } from "./view";
+import { AppContextProvider, FieldAndButton, Status, TasksList } from "./view";
 import { Counter } from "./view";
 import { IAppClient } from "./Lib/interfaces";
 import { CompletedTasksList } from "./view/components/CompletedTasksList";
@@ -12,10 +12,13 @@ export default function App({ appClient }: { appClient: IAppClient }) {
       typingService={typingService}
       tasksProvider={tasksProvider}
     >
-      <div className="App">
+      <div className="split left">
         <Counter />
         <FieldAndButton />
         <TasksList />
+      </div>
+      <div className="split right">
+        <Status />
         <CompletedTasksList />
       </div>
     </AppContextProvider>

@@ -1,10 +1,12 @@
 import { act } from "react-dom/test-utils";
 import { ITask } from "../Domain";
 import { ClientFactory } from "../Lib";
+import { randomString } from "./utils";
 
 export enum OperationsKeys {
   addTask = "addTask",
   completeTask = "completeTask",
+  setTypingText = "setTypingText",
 }
 
 export class ClientBuilder {
@@ -12,6 +14,11 @@ export class ClientBuilder {
 
   withTasks = (tasks: ITask[]) => {
     tasks.forEach((task) => this.appClient.operations.addTask(task));
+    return this;
+  };
+
+  withTypingText = (text: string = randomString()) => {
+    act(() => this.appClient.operations.setTypingText(text));
     return this;
   };
 
@@ -25,11 +32,6 @@ export class ClientBuilder {
 
   withSpyOnOperation = (operation: OperationsKeys) => {
     jest.spyOn(this.appClient.operations, operation);
-    return this;
-  };
-
-  withTypingText = (text: string) => {
-    act(() => (this.appClient.typingService.typingText.value = text));
     return this;
   };
 

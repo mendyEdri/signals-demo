@@ -25,6 +25,10 @@ export class Operations implements IOperations {
     this.typingService.typingText.value = text;
   };
 
+  pausedTyping = () => {
+    this.typingService.isTyping.value = false;
+  };
+
   resetTyping = () => {
     this.typingService.isTyping.value = false;
     this.typingService.typingText.value = undefined;
