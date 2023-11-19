@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { AppContextProvider, FieldAndButton, TasksList } from "./view";
+import { Counter } from "./view";
+import { IAppClient } from "./Lib/interfaces";
+import { CompletedTasksList } from "./view/components/CompletedTasksList";
 
-function App() {
+export default function App({ appClient }: { appClient: IAppClient }) {
+  const { operations, typingService, tasksProvider } = appClient;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContextProvider
+      operations={operations}
+      typingService={typingService}
+      tasksProvider={tasksProvider}
+    >
+      <div className="App">
+        <Counter />
+        <FieldAndButton />
+        <TasksList />
+        <CompletedTasksList />
+      </div>
+    </AppContextProvider>
   );
 }
-
-export default App;
